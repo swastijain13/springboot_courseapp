@@ -1,15 +1,15 @@
 package com.example.courseApplication.Controller;
 
 import com.example.courseApplication.Entity.Course;
-import com.example.courseApplication.Entity.Student;
 import com.example.courseApplication.Service.CourseService;
 import com.example.courseApplication.Service.EnrollmentService;
-import com.example.courseApplication.Service.StudentService;
+import com.example.courseApplication.dto.CourseDTO;
+import com.example.courseApplication.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -18,16 +18,7 @@ public class EnrollmentController {
     private EnrollmentService enrollmentservice;
 
     @Autowired
-    private StudentService studentService;
-
-    @Autowired
     private CourseService courseService;
-
-    @PostMapping("/add_student")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        Student newStudent = studentService.addStudent(student);
-        return ResponseEntity.ok(newStudent);
-    }
 
     @PostMapping("/add_course")
     public ResponseEntity<Course> addCourse(@RequestBody Course course) {
@@ -49,7 +40,13 @@ public class EnrollmentController {
 
     @GetMapping("/students/{studentId}/courses")
     public ResponseEntity<?> getCoursesForStudent(@PathVariable Integer studentId) {
-        Set<Course> courses = enrollmentservice.getCoursesForStudent(studentId);
+        List<CourseDTO> courses = enrollmentservice.getCoursesForStudent(studentId);
         return ResponseEntity.ok(courses);
+    }
+
+    @GetMapping("/admin/course/{courseId}/students")
+    public ResponseEntity<?> getStudentsForCourse(@PathVariable Integer courseId) {
+        List<UserDTO> students = enrollmentservice.getStudentsForCourse(courseId);
+        return ResponseEntity.ok(students);
     }
 }

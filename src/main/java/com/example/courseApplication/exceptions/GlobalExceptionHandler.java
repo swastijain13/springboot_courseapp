@@ -12,15 +12,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(StudentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleStudentNotFound(StudentNotFoundException e) {
-        ErrorResponse studentNotFound = new ErrorResponse("Student not found", HttpStatus.NOT_FOUND.value());
+        ErrorResponse studentNotFound = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(studentNotFound, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CourseNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCourseNotFound(CourseNotFoundException e) {
-        ErrorResponse courseNotFound = new ErrorResponse("Course Not Found", HttpStatus.NOT_FOUND.value());
+        ErrorResponse courseNotFound = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(courseNotFound, HttpStatus.NOT_FOUND);
     }
-
 }
 

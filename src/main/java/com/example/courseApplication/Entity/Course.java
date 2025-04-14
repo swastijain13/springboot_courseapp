@@ -16,7 +16,7 @@ public class Course {
     private String title;
 
     @ManyToMany(mappedBy = "courses")
-    private Set<Student> students = new HashSet<>();
+    private Set<User> students = new HashSet<>();
 
     public Course(){}
 
@@ -39,6 +39,10 @@ public class Course {
 
     public void setTitle(String title){
         this.title = title;
+    }
+
+    public Set<User> getStudents(){
+        return this.students;
     }
 
 }
