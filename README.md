@@ -7,7 +7,7 @@
 3. Run: `./mvnw spring-boot:run` on vs code **OR**
    Open main file CourseApplication.java in the directory src/main/java/com/example/courseApplication
    and Run the file
-5. Application will start on port 8005
+5. Application will start on port 8080
 6. use H2 Database url provided to connect to db on the h2 console.
 
 ## Data Models
