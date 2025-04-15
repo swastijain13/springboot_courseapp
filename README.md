@@ -12,43 +12,129 @@
 
 ## Data Models
 
-### Student
+### User
 - `id`: Integer (Auto-generated)
-- `name`: String
+- `username`: String
+- `email` : String
+- `role` : String ("ADMIN" / "STUDENT") (BY DEFAULT :"STUDENT")
+- `password` : String
 
 ### Course
 - `id`: Integer (Auto-generated)
 - `title` : String
 
+## DTOs
+### UserDTO
+- `id` : Integer
+- `username` : String
+- `email` : String
+
+### CourseDTO
+- `id` : Integer
+- `title` : String
 
 ## API Endpoints
-
-- Add Student: `POST /api/add_student`
+#### Auth endpoints:
+###### User register(as student): `POST /api/auth/register`
   ```json
   {
-    "name": "swasti"
+     "username": "swasti",
+     "email" : "swasti@example.com",
+     "password" : "swasti"
   }
   ```
+###### User login: `POST /api/auth/login`
+  REQUEST PARAMETERS :
+  ```
+  {
+     "username" : "swasti",
+     "password" : "swasti"
+  }
+  ```
+- Response :
+   ```
+   token
+   ```
 
-- Add Course: `POST /api/add_course`
+#### Admin authorized endpoints:
+- GET TOKEN FOR ADMIN
+- LOGIN USING ADMIN CREDENTIALS
+- ADMIN USERNAME : "ADMIN", ADMIN PASSWORD : "PASSWORD"
+  
+###### Add Course: `POST /api/add_course`
   ```json
   {
     "title" : "springboot"
   }
   ```
-
-- Enroll Student: `POST /api/students/<student_id>/enroll/<course_id>`
+  Auth type : Bearer token
+- token :
+  ```
+  admin_token
+  ```
 - Response :
+  ```
+  {
+     "id" : "course_id",
+     "title" : "course_title"
+  }
+  ```
+
+###### LIST ALL STUDENTS ENROLLED IN A COURSE
+- `GET /api/admin/course/{courseId}/students`
+- Auth type : Bearer token
+- token :
+  ```
+  admin_token
+  ```
+- RESPONSE :
+  ```
+  [
+      {
+        "id" : "student_id",
+        "username" : "student_name",
+        "email" : "student_email"
+     },
+     {
+        "id" : "student_id2",
+        "username" : "student_name2",
+        "email" : "student_email2"
+     }...
+  ]
+  ```
+  
+#### USER AUTHENTICATED ENDPOINTS:
+###### Enroll in course
+- `POST /api/students/{studentID}/enroll/{courseID}`
+- Auth type : Bearer token
+- token :
+  ```
+  student_token
+  ```
+  Response :
   ```
   "Student Enrolled succesfully"
   ```
-- Remove Enrollment : `DELETE /api/students/<student_id>/enroll/<course_id>`
-- Response :
+  
+###### Remove Enrollment 
+- `DELETE /api/students/{studentId}/enroll/{courseId}`
+- Auth type : Bearer token
+- token :
+  ```
+  student_token
+  ```
+  Response :
   ```
   "Enrollment removed successfully"
   ```
 
-- Get all enrolled courses for a student : `GET /api/students/<student_id>/courses`
+###### Get all enrolled courses for a student
+- `GET /api/students/{studentId}/courses`
+- Auth type : Bearer token
+- token :
+  ```
+  student_token
+  ```
 - Response :
   ```
   {
