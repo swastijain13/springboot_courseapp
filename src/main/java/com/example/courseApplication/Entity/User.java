@@ -1,16 +1,18 @@
 package com.example.courseApplication.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "`user`")
-public class User {
-    public Integer getId() {
-        return id;
-    }
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -22,12 +24,30 @@ public class User {
 
     private String password;
 
+    private String role; // "ADMIN" or "STUDENT"
+
     @ManyToMany
     @JoinTable(
             name = "student_course",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courses = new HashSet<>();
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role));
+    }
+
+    public User() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
 
     public String getRole() {
         return role;
@@ -36,8 +56,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    private String role; // "ADMIN" or "STUDENT"
 
     public String getUsername(){
         return this.username;
@@ -65,6 +83,10 @@ public class User {
 
     public Set<Course> getCourses(){
         return this.courses;
+    }
+
+    public void setCourses(Set<Course> courses){
+        this.courses = courses;
     }
 
 }
