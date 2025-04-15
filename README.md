@@ -158,6 +158,30 @@
 }
 ```
 
+## Run Tests
+```
+mvn test
+```
+
+### Endpoints covered in tests:
+#### AuthServiceTest
+- register - SUCCESS 
+- register - FAIL, USERNAME ALREADY EXISTS
+- login - SUCCESS
+- login - FAIL, BAD CREDENTIALS
+
+#### CourseServiceTest
+- addCourse
+
+#### EnrollmentServiceTest
+- student enrollment success
+- student enrollment fail(course not found, student not found)
+- student remove enrollment success
+- student remove enrollment fail
+- get courses for a student - success
+- get courses for a student - fail, student not found
+- get students enrolled in a course
+
 ### Prerequisites
 - Java 21
 - Maven
